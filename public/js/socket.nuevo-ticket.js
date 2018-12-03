@@ -1,26 +1,32 @@
-//Comando para establece la comunicacion
-
+// Comando para establecer la conexión
 var socket = io();
 
 var label = $('#lblNuevoTicket');
 
 
 socket.on('connect', function() {
-    console.log('conectado al servidor');
+    console.log('Conectado al servidor');
 });
 
 socket.on('disconnect', function() {
-    console.log('Perdimos conexion con el servidor');
+    console.log('Desconectado del servidor');
 });
 
+// on 'estadoActual'
+socket.on('estadoActual', function(resp) {
 
-socket.on('estadoAcutal', function(estadoAcutalTicket) {
-    label.text(estadoAcutalTicket.actual);
+    console.log(resp);
+    label.text(resp.actual);
+
 });
+
 
 $('button').on('click', function() {
-    //Enviar Informacion
+
     socket.emit('siguienteTicket', null, function(siguienteTicket) {
+
         label.text(siguienteTicket);
+
     });
+
 });
